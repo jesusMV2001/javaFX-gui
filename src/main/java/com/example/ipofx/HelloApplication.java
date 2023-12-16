@@ -10,8 +10,6 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class HelloApplication extends Application {
-    private LectorDatos fich;
-
     public HelloApplication() {}
 
     @Override
@@ -21,7 +19,7 @@ public class HelloApplication extends Application {
 
         // Obtener el controlador y establecer los parámetros
         HelloController controller = fxmlLoader.getController();
-        controller.inicializarConParametros("src/main/resources/idiomas.tsv");
+        controller.inicializarConParametros("idiomas.tsv");
 
         Scene scene = new Scene(root, 320, 240);
         stage.setTitle("Hello!");
