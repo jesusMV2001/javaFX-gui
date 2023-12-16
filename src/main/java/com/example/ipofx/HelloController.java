@@ -1,25 +1,61 @@
 package com.example.ipofx;
 
+import LectorDatos.LectorDatos;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
+import java.util.List;
+import java.util.Objects;
+
 public class HelloController {
-    public CheckMenuItem idioma2;
-    public CheckMenuItem idioma1;
-    @FXML
-    private Label welcomeText;
+    private String leng="";
+    private LectorDatos f;
+    public Menu idiomasMenu;
+    ToggleGroup toggleGroup = new ToggleGroup();
 
     @FXML
-    protected void onIdioma1() {
-        //TODO hacer que cuando se seleccione cambie al idioma 1
-        if(idioma1.isSelected()) idioma2.setSelected(false);
-        if(!idioma1.isSelected() && !idioma2.isSelected()) idioma1.setSelected(true);
+    private void initialize() {
+        toggleGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                actualizarTexto(((RadioMenuItem) newValue).getText());
+            }
+        });
     }
 
-    @FXML
-    protected void onIdioma2() {
-        //TODO hacer que cuando se seleccione cambie al idioma 2
-        if(idioma2.isSelected()) idioma1.setSelected(false);
-        if(!idioma1.isSelected() && !idioma2.isSelected()) idioma2.setSelected(true);
+    /**
+     * Inicia la clase necesaria con los datos recogidos del fichero de idiomas
+     * @param ruta ruta del fichero de idiomas
+     */
+    public void inicializarConParametros(String ruta) {
+        f = new LectorDatos(ruta);
+        crearIdiomas(f.idiomas.keySet().stream().toList());
+
+    }
+
+    /**
+     * Crea todos los seleccionables dentro del menu en el apartado idioma
+     * @param idiomas lista con los idiomas sacado del archivo idioma.tsv
+     */
+    public void crearIdiomas(List<String> idiomas){
+        for (String idioma: idiomas){
+            RadioMenuItem nuevoItem = new RadioMenuItem(idioma);
+            nuevoItem.setToggleGroup(toggleGroup);
+
+            idiomasMenu.getItems().add(nuevoItem);
+        }
+        actualizarTexto(idiomas.getFirst());
+    }
+
+    public void actualizarTexto(String idioma){
+        if(!Objects.equals(idioma, leng)){
+            idiomasMenu.setText(f.idiomas.get(idioma).getTexto("menuIdioma"));
+            ObservableList<MenuItem> listaIdiomas = idiomasMenu.getItems();
+            for(MenuItem t: listaIdiomas){
+                if( t.getText().equals(idioma))  ((RadioMenuItem) t).setSelected(true);
+            }
+
+            leng=idioma;
+        }
     }
 }
