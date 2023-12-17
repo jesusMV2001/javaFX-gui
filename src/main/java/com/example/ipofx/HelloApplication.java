@@ -20,8 +20,9 @@ public class HelloApplication extends Application {
         HelloController controller = fxmlLoader.getController();
         controller.inicializarConParametros("idiomas.tsv");
 
-        Scene scene = new Scene(root, 750, 450);
+        Scene scene = new Scene(root, 950, 650);
         stage.setTitle("IPO APP");
+        stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
     }

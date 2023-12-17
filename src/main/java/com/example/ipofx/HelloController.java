@@ -11,6 +11,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Window;
 
@@ -18,7 +19,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class HelloController {
-    private static final int VIVIENDAS_POR_PAGINA = 6;
+    private static final int VIVIENDAS_POR_PAGINA = 5;
     public Button pagAnterior;
     public Button pagSiguiente;
     public Label numPagina;
@@ -46,9 +47,9 @@ public class HelloController {
             }
         });
         // Ajusta la altura preferida de la tabla
-        tablaViviendas.setFixedCellSize(50); // Ajusta el tamaño de la celda según tus necesidades
-        tablaViviendas.prefHeightProperty().bind(Bindings.size(tablaViviendas.getItems()).multiply(tablaViviendas.getFixedCellSize()).add(30)); // 30 es para tener espacio extra
-        //numPagina.layoutXProperty().bind(contenedorPaginador.widthProperty().subtract(numPagina.widthProperty()).divide(2));
+        tablaViviendas.setFixedCellSize(82); // Ajusta el tamaño de la celda según tus necesidades
+        tablaViviendas.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        tablaViviendas.setPrefSize(TableView.USE_COMPUTED_SIZE, TableView.USE_COMPUTED_SIZE);
 
 
         // Crear las columnas y asignar las propiedades
@@ -57,8 +58,8 @@ public class HelloController {
         columnaNombre.setResizable(true);
         columnaNombre.prefWidthProperty().bind(tablaViviendas.widthProperty().multiply(0.5));
 
-        TableColumn<Vivienda, String> columnaRutaFoto = new TableColumn<>("Ruta Foto");
-        columnaRutaFoto.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().rutaFoto));
+        TableColumn<Vivienda, ImageView> columnaRutaFoto = new TableColumn<>("Ruta Foto");
+        columnaRutaFoto.setCellValueFactory(cellData -> cellData.getValue().imagenProperty());
         columnaRutaFoto.setResizable(true);
         columnaRutaFoto.prefWidthProperty().bind(tablaViviendas.widthProperty().multiply(0.2));
 
@@ -82,12 +83,12 @@ public class HelloController {
 
         // Crear datos de ejemplo
         datosViviendas = FXCollections.observableArrayList(
-                new Vivienda("Casa 1", "ruta1.jpg"),
-                new Vivienda("Casa 2", "ruta2.jpg"),
-                new Vivienda("Casa 3", "ruta3.jpg"),
-                new Vivienda("Casa 4", "ruta4.jpg"),
-                new Vivienda("Casa 5", "ruta5.jpg"),
-                new Vivienda("Casa 6", "ruta6.jpg")
+                new Vivienda("Casa 1", "image.png"),
+                new Vivienda("Casa 2", "image.png"),
+                new Vivienda("Casa 3", "image.png"),
+                new Vivienda("Casa 4", "image.png"),
+                new Vivienda("Casa 5", "image.png"),
+                new Vivienda("Casa 6", "image.png")
         );
 
 
