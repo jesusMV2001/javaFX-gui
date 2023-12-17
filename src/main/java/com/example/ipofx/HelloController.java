@@ -1,19 +1,18 @@
 package com.example.ipofx;
 
 import LectorDatos.LectorDatos;
-import javafx.beans.binding.Bindings;
-import javafx.beans.property.Property;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Window;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import java.util.List;
 import java.util.Objects;
@@ -24,7 +23,6 @@ public class HelloController {
     public Button pagSiguiente;
     public Label numPagina;
     public AnchorPane contenedorTabla;
-    public AnchorPane contenedorPaginador;
     private ObservableList<Vivienda> datosViviendas;
     private int paginaActual = 0;
     public TextField buscador;
@@ -32,8 +30,8 @@ public class HelloController {
     public Label textoBuscador;
     public Button botonAddVivienda;
     public TableView tablaViviendas;
-    private String leng="";
-    private LectorDatos f;
+    public String leng="";
+    public LectorDatos f;
     public Menu idiomasMenu;
     ToggleGroup toggleGroup;
 
@@ -94,32 +92,6 @@ public class HelloController {
 
         // Mostrar las primeras viviendas
         mostrarViviendasEnPagina(paginaActual);
-
-    }
-
-    private void cambiarAlturaTabla() {
-        // Escuchar cambios en la escena
-        contenedorTabla.sceneProperty().addListener(new ChangeListener<>() {
-            @Override
-            public void changed(ObservableValue<? extends Scene> observableValue, javafx.scene.Scene oldScene, javafx.scene.Scene newScene) {
-                if (newScene != null) {
-                    // Cuando la escena cambia, obtener la ventana y realizar la vinculación
-                    Window ventana = newScene.getWindow();
-                    if (ventana != null) {
-                        double alturaVentana = ventana.getHeight();
-                        double alturaDeseada = 0.6 * alturaVentana;
-
-                        // Vincular la propiedad prefHeight del AnchorPane al 60% de la altura de la ventana
-                        contenedorTabla.prefHeightProperty().bindBidirectional((Property<Number>) ventana.heightProperty());
-
-                        // Establecer la altura máxima y mínima según sea necesario
-                        contenedorTabla.setMaxHeight(alturaDeseada);
-                        contenedorTabla.setMinHeight(alturaDeseada);
-                        System.out.println(alturaDeseada);
-                    }
-                }
-            }
-        });
     }
 
     private void mostrarViviendasEnPagina(int pagina) {
@@ -154,7 +126,30 @@ public class HelloController {
     }
     @FXML
     private void onBotonAddVivienda(){
+        try {
+            // Cargar la nueva ventana desde un archivo FXML
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("add-vivienda.fxml"));
+            Parent root = loader.load();
+            AddViviendaController a = loader.getController();
+            a.inicializarConParametros(this);
+            // Crear una nueva instancia de Stage
+            Stage nuevaVentana = new Stage();
+            nuevaVentana.setTitle("Nueva Ventana");
 
+            // Configurar la escena en la nueva ventana
+            nuevaVentana.setScene(new Scene(root,950, 650));
+
+            // Configurar la ventana modal (bloquea la ventana principal hasta que se cierre)
+            nuevaVentana.initModality(Modality.WINDOW_MODAL);
+            nuevaVentana.initOwner(tablaViviendas.getScene().getWindow());
+            nuevaVentana.setResizable(false);
+
+
+            // Mostrar la nueva ventana
+            nuevaVentana.showAndWait();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -164,14 +159,6 @@ public class HelloController {
     public void inicializarConParametros(String ruta) {
         f = new LectorDatos(ruta);
         crearIdiomas(f.idiomas.keySet().stream().toList());
-        crearTablaViviendas();
-    }
-
-    /**
-     * Metodo para crear la vista con las viviendas
-     */
-    private void crearTablaViviendas(){
-
     }
 
     /**
