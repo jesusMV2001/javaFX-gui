@@ -1,0 +1,12 @@
+.table-view-no-header .column-header-background {
+    visibility: hidden;
+}
+
+.table-view-no-header .column-header {
+    height: 0;
+    padding: 0;
+}
+
+.table-view-no-header .table-header {
+    visibility: hidden;
+}

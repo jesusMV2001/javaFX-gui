@@ -1,6 +1,5 @@
 package com.example.ipofx;
 
-import LectorDatos.LectorDatos;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -21,8 +20,8 @@ public class HelloApplication extends Application {
         HelloController controller = fxmlLoader.getController();
         controller.inicializarConParametros("idiomas.tsv");
 
-        Scene scene = new Scene(root, 320, 240);
-        stage.setTitle("Hello!");
+        Scene scene = new Scene(root, 750, 450);
+        stage.setTitle("IPO APP");
         stage.setScene(scene);
         stage.show();
     }

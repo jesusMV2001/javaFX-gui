@@ -1,9 +1,15 @@
 2
 Es
-1
-menuIdioma=Idioma
+4
+idiomasMenu=Idioma
+textoBuscador=Buscar Vivienda
+botonBuscador=Buscar
+botonAddVivienda=Añadir Vivienda
 0
 En
-1
-menuIdioma=language
+4
+idiomasMenu=language
+textoBuscador=Search Housing
+botonBuscador=Search
+botonAddVivienda=Add Housing
 0
