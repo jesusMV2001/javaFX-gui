@@ -39,6 +39,8 @@ public class HelloController {
 
     @FXML
     private void initialize() {
+        pagAnterior.setText("<");
+        pagSiguiente.setText(">");
         Image imagen = new Image("add-icon.png");
         ImageView imageView = new ImageView(imagen);
         imageView.setFitWidth(30);
@@ -87,10 +89,6 @@ public class HelloController {
         // Agregar las columnas a la tabla
         tablaViviendas.getColumns().addAll(columnaRutaFoto,columnaNombre, columnaBoton1, columnaBoton2, columnaBoton3);
 
-
-
-
-
     }
 
     private void addViviendasPredeterminadas(List<Vivienda> casas) {
@@ -98,6 +96,8 @@ public class HelloController {
 
         for (Vivienda v : casas){
             v.botonDelete.setOnAction(actionEvent -> onBotonBorrar(v));
+            v.botonDetails.setOnAction(actionEvent -> onBotonVisualizar(v));
+            v.botonEdit.setOnAction(actionEvent -> onBotonEditar(v));
             viviendas.put(v.nombre,v);
         }
 
@@ -111,8 +111,10 @@ public class HelloController {
         int fin = Math.min(inicio + VIVIENDAS_POR_PAGINA, datosViviendas.size());
         if(inicio==fin)
             mostrarPaginaAnterior();
-        else
+        else {
+            tablaViviendas.getItems().clear();
             tablaViviendas.setItems(FXCollections.observableArrayList(datosViviendas.subList(inicio, fin)));
+        }
     }
 
     @FXML
@@ -151,6 +153,15 @@ public class HelloController {
     }
 
     @FXML
+    public void onBotonVisualizar(Vivienda vivienda){
+        System.out.println("visualizar: "+vivienda.nombre);
+    }
+    @FXML
+    public void onBotonEditar(Vivienda vivienda){
+        crearPantallaEditable(vivienda);
+    }
+
+    @FXML
     public void onBotonBorrar(Vivienda vivienda){
         viviendas.remove(vivienda.nombre);
         datosViviendas.remove(vivienda);
@@ -159,12 +170,16 @@ public class HelloController {
 
     @FXML
     private void onBotonAddVivienda(){
+        crearPantallaEditable(null);
+    }
+
+    private void crearPantallaEditable(Vivienda vivienda){
         try {
             // Cargar la nueva ventana desde un archivo FXML
             FXMLLoader loader = new FXMLLoader(getClass().getResource("add-vivienda.fxml"));
             Parent root = loader.load();
             AddViviendaController a = loader.getController();
-            a.inicializarConParametros(this);
+            a.inicializarConParametros(this,vivienda);
             // Crear una nueva instancia de Stage
             Stage nuevaVentana = new Stage();
             nuevaVentana.setTitle("IPO APP");
