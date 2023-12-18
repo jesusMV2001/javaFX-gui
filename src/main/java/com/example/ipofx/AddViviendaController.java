@@ -2,6 +2,7 @@ package com.example.ipofx;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
@@ -32,6 +33,22 @@ public class AddViviendaController {
 
     @FXML
     private void initialize() {
+        //Icono boton guardar
+        Image imagen = new Image("save-icon.png");
+        ImageView imageView = new ImageView(imagen);
+        imageView.setFitWidth(30);
+        imageView.setFitHeight(30);
+        guardarBoton.setGraphic(imageView);
+        //Imagenes
+        Image mapaImg = new Image("Mapa.png");
+        mapa.setImage(mapaImg);
+        mapaImg = new Image("foto1.png");
+        foto1.setImage(mapaImg);
+        mapaImg = new Image("foto2.png");
+        foto2.setImage(mapaImg);
+        mapaImg = new Image("foto3.png");
+        foto3.setImage(mapaImg);
+
         nuevaVivienda = new Vivienda();
         toggleGroup = new ToggleGroup();
         toggleGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {

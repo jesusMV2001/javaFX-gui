@@ -109,8 +109,10 @@ public class HelloController {
     public void mostrarViviendasEnPagina(int pagina) {
         int inicio = pagina * VIVIENDAS_POR_PAGINA;
         int fin = Math.min(inicio + VIVIENDAS_POR_PAGINA, datosViviendas.size());
-
-        tablaViviendas.setItems(FXCollections.observableArrayList(datosViviendas.subList(inicio, fin)));
+        if(inicio==fin)
+            mostrarPaginaAnterior();
+        else
+            tablaViviendas.setItems(FXCollections.observableArrayList(datosViviendas.subList(inicio, fin)));
     }
 
     @FXML
