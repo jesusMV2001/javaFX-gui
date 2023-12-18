@@ -31,12 +31,6 @@ public class LectorDatos {
                 }
                 idiomas.put(idioma.id,idioma);
             }
-            
-            String linea;
-            while ((linea = bufferedReader.readLine()) != null) {
-                // Procesar la línea según tus necesidades
-                System.out.println(linea);
-            }
 
             // Cerrar los recursos después de su uso
             bufferedReader.close();

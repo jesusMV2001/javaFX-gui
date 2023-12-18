@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="674.0" prefWidth="933.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ipofx.AddViviendaController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ipofx.AddViviendaController">
     <top>
         <MenuBar BorderPane.alignment="CENTER">
             <Menu fx:id="idiomasMenu" mnemonicParsing="false" text="Idiomas">
@@ -13,7 +17,26 @@
         </MenuBar>
     </top>
    <center>
-      <Label fx:id="prueba" text="Label" BorderPane.alignment="CENTER" />
+      <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="volverBoton" layoutX="34.0" layoutY="26.0" mnemonicParsing="false" onAction="#setVolverBoton" text="Volver" />
+            <Button fx:id="guardarBoton" onAction="#setGuardarBoton" layoutX="450.0" layoutY="26.0" mnemonicParsing="false" text="Guardar" />
+            <Button fx:id="eliminarImg" layoutX="740.0" layoutY="26.0" mnemonicParsing="false" text="Eliminar Imagen" />
+            <Button fx:id="addBoton" layoutX="842.0" layoutY="26.0" mnemonicParsing="false" text="Añadir Imagen" />
+            <Pane layoutX="6.0" layoutY="70.0" prefHeight="209.0" prefWidth="938.0">
+               <children>
+                  <ImageView fx:id="foto1" fitHeight="212.0" fitWidth="276.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="foto2" fitHeight="212.0" fitWidth="276.0" layoutX="276.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="foto3" fitHeight="152.0" fitWidth="387.0" layoutX="552.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true" />
+                  <Label fx:id="masFotos" alignment="CENTER" layoutX="552.0" layoutY="151.0" prefHeight="60.0" prefWidth="385.0" text="mas fotos" />
+               </children>
+            </Pane>
+            <ImageView fx:id="mapa" fitHeight="324.0" fitWidth="833.0" layoutX="42.0" layoutY="451.0" pickOnBounds="true" preserveRatio="true" />
+            <TextField fx:id="precioText" alignment="CENTER" layoutY="313.0" onKeyTyped="#setPrecioText" prefHeight="44.0" prefWidth="264.0" promptText="Precio" />
+            <TextField fx:id="ubicacionText" alignment="CENTER" layoutX="450.0" layoutY="313.0" onKeyTyped="#setUbicacionText" prefHeight="44.0" prefWidth="493.0" promptText="Ubicacion" />
+            <TextField fx:id="descripcionText" alignment="TOP_LEFT" layoutY="366.0" onKeyTyped="#setDescripcionText" prefHeight="77.0" prefWidth="950.0" promptText="Descripcion" />
+         </children>
+      </Pane>
    </center>
 
 </BorderPane>

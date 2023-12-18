@@ -18,7 +18,7 @@ public class HelloApplication extends Application {
 
         // Obtener el controlador y establecer los parámetros
         HelloController controller = fxmlLoader.getController();
-        controller.inicializarConParametros("idiomas.tsv");
+        controller.inicializarConParametros("idiomas.tsv","viviendas.csv");
 
         Scene scene = new Scene(root, 950, 650);
         stage.setTitle("IPO APP");

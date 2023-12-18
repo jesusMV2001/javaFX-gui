@@ -2,22 +2,37 @@ package com.example.ipofx;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 
 import java.util.List;
 import java.util.Objects;
 
 public class AddViviendaController {
     public String leng;
-    public Label prueba;
+    public Button volverBoton;
+    public Button guardarBoton;
+    public Button addBoton;
+    public ImageView foto1;
+    public ImageView foto3;
+    public ImageView foto2;
+    public Label masFotos;
+    public ImageView mapa;
+    public TextField precioText;
+    public TextField ubicacionText;
+    public TextField descripcionText;
+    public Button eliminarImg;
     HelloController h;
     ToggleGroup toggleGroup;
     public Menu idiomasMenu;
+    Vivienda nuevaVivienda;
 
     public AddViviendaController() {
     }
 
     @FXML
     private void initialize() {
+        nuevaVivienda = new Vivienda();
         toggleGroup = new ToggleGroup();
         toggleGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
@@ -33,6 +48,49 @@ public class AddViviendaController {
         crearIdiomas(h.f.idiomas.keySet().stream().toList());
     }
 
+    @FXML
+    private void setVolverBoton(){
+        Stage stage = (Stage) volverBoton.getScene().getWindow();
+        stage.close();
+    }
+
+    @FXML
+    private void setPrecioText(){
+        this.nuevaVivienda.precio = this.precioText.getText();
+    }
+    @FXML
+    private void setUbicacionText(){
+        this.nuevaVivienda.nombre = this.ubicacionText.getText();
+    }
+    @FXML
+    private void setDescripcionText(){
+        this.nuevaVivienda.descripcion = this.descripcionText.getText();
+    }
+    @FXML
+    private void setGuardarBoton(){
+        if(h.viviendas.containsKey(ubicacionText.getText())){
+            Alert alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setTitle(h.f.idiomas.get(leng).getTexto("errorTitulo"));
+            alerta.setHeaderText(h.f.idiomas.get(leng).getTexto("errorRepetidoHeader"));
+            alerta.setContentText(h.f.idiomas.get(leng).getTexto("errorRepetidoContenido"));
+
+            alerta.showAndWait();
+        }else if(descripcionText.getText().isBlank() || precioText.getText().isBlank() || ubicacionText.getText().isBlank()){
+            Alert alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setTitle(h.f.idiomas.get(leng).getTexto("errorTitulo"));
+            alerta.setHeaderText(h.f.idiomas.get(leng).getTexto("errorRepetidoHeader"));
+            alerta.setContentText(h.f.idiomas.get(leng).getTexto("errorVacioContenido"));
+
+            alerta.showAndWait();
+        }else{
+            nuevaVivienda.botonDelete.setOnAction(actionEvent -> h.onBotonBorrar(nuevaVivienda));
+            h.viviendas.put(nuevaVivienda.nombre,nuevaVivienda);
+            h.datosViviendas.add(nuevaVivienda);
+            h.mostrarViviendasEnPagina(h.paginaActual);
+            setVolverBoton();
+        }
+    }
+
     private void crearIdiomas(List<String> idiomas){
         for (String idioma: idiomas){
             RadioMenuItem nuevoItem = new RadioMenuItem(idioma);
@@ -46,14 +104,14 @@ public class AddViviendaController {
     public void actualizarTexto(String idioma, boolean primeraVez){
         if(primeraVez){
             //se cambian todos los textos
-            idiomasMenu.setText(h.f.idiomas.get(leng).getTexto("idiomasMenu"));
+            cambiarNombres(leng);
             //se selecciona el idioma elegido
             for(MenuItem t: idiomasMenu.getItems()){
                 if( t.getText().equals(leng))  ((RadioMenuItem) t).setSelected(true);
             }
         }else if(!Objects.equals(idioma, leng)){
             //se cambian todos los textos
-            idiomasMenu.setText(h.f.idiomas.get(idioma).getTexto("idiomasMenu"));
+            cambiarNombres(idioma);
             //se selecciona el idioma elegido
             for(MenuItem t: idiomasMenu.getItems()){
                 if( t.getText().equals(idioma))  ((RadioMenuItem) t).setSelected(true);
@@ -61,5 +119,17 @@ public class AddViviendaController {
 
             leng=idioma;
         }
+    }
+
+    private void cambiarNombres(String idioma){
+        idiomasMenu.setText(h.f.idiomas.get(idioma).getTexto("idiomasMenu"));
+        volverBoton.setText(h.f.idiomas.get(idioma).getTexto("botonVolver"));
+        guardarBoton.setText(h.f.idiomas.get(idioma).getTexto("botonGuardar"));
+        eliminarImg.setText(h.f.idiomas.get(idioma).getTexto("botonEliminarImg"));
+        addBoton.setText(h.f.idiomas.get(idioma).getTexto("botonAddImg"));
+        precioText.setPromptText(h.f.idiomas.get(idioma).getTexto("textoPrecio"));
+        ubicacionText.setPromptText(h.f.idiomas.get(idioma).getTexto("textoUbicaion"));
+        descripcionText.setPromptText(h.f.idiomas.get(idioma).getTexto("textoDescripcion"));
+        masFotos.setText(h.f.idiomas.get(idioma).getTexto("textoMasFotos"));
     }
 }

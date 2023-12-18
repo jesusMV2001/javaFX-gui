@@ -1,6 +1,7 @@
 package com.example.ipofx;
 
 import LectorDatos.LectorDatos;
+import LectorDatos.LectorViviendas;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,13 +10,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class HelloController {
     private static final int VIVIENDAS_POR_PAGINA = 5;
@@ -23,8 +24,9 @@ public class HelloController {
     public Button pagSiguiente;
     public Label numPagina;
     public AnchorPane contenedorTabla;
-    private ObservableList<Vivienda> datosViviendas;
-    private int paginaActual = 0;
+    public HashMap<String,Vivienda> viviendas;
+    public ObservableList<Vivienda> datosViviendas;
+    public int paginaActual = 0;
     public TextField buscador;
     public Button botonBuscador;
     public Label textoBuscador;
@@ -37,6 +39,12 @@ public class HelloController {
 
     @FXML
     private void initialize() {
+        Image imagen = new Image("add-icon.png");
+        ImageView imageView = new ImageView(imagen);
+        imageView.setFitWidth(30);
+        imageView.setFitHeight(30);
+        botonAddVivienda.setGraphic(imageView);
+
         numPagina.setText(String.valueOf(paginaActual+1));
         toggleGroup = new ToggleGroup();
         toggleGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
@@ -62,39 +70,43 @@ public class HelloController {
         columnaRutaFoto.prefWidthProperty().bind(tablaViviendas.widthProperty().multiply(0.2));
 
         TableColumn<Vivienda, Button> columnaBoton1 = new TableColumn<>("Botón 1");
-        columnaBoton1.setCellValueFactory(cellData -> cellData.getValue().boton1Property());
+        columnaBoton1.setCellValueFactory(cellData -> cellData.getValue().botonEditProperty());
         columnaBoton1.setResizable(true);
         columnaBoton1.prefWidthProperty().bind(tablaViviendas.widthProperty().multiply(0.1));
 
         TableColumn<Vivienda, Button> columnaBoton2 = new TableColumn<>("Botón 2");
-        columnaBoton2.setCellValueFactory(cellData -> cellData.getValue().boton2Property());
+        columnaBoton2.setCellValueFactory(cellData -> cellData.getValue().botonDetailsProperty());
         columnaBoton2.setResizable(true);
         columnaBoton2.prefWidthProperty().bind(tablaViviendas.widthProperty().multiply(0.1));
 
         TableColumn<Vivienda, Button> columnaBoton3 = new TableColumn<>("Botón 3");
-        columnaBoton3.setCellValueFactory(cellData -> cellData.getValue().boton3Property());
+        columnaBoton3.setCellValueFactory(cellData -> cellData.getValue().botonDeleteProperty());
         columnaBoton3.setResizable(true);
         columnaBoton3.prefWidthProperty().bind(tablaViviendas.widthProperty().multiply(0.1));
 
         // Agregar las columnas a la tabla
         tablaViviendas.getColumns().addAll(columnaRutaFoto,columnaNombre, columnaBoton1, columnaBoton2, columnaBoton3);
 
-        // Crear datos de ejemplo
-        datosViviendas = FXCollections.observableArrayList(
-                new Vivienda("Casa 1", "image.png"),
-                new Vivienda("Casa 2", "image.png"),
-                new Vivienda("Casa 3", "image.png"),
-                new Vivienda("Casa 4", "image.png"),
-                new Vivienda("Casa 5", "image.png"),
-                new Vivienda("Casa 6", "image.png")
-        );
 
 
-        // Mostrar las primeras viviendas
-        mostrarViviendasEnPagina(paginaActual);
+
+
     }
 
-    private void mostrarViviendasEnPagina(int pagina) {
+    private void addViviendasPredeterminadas(List<Vivienda> casas) {
+        viviendas = new HashMap<>();
+
+        for (Vivienda v : casas){
+            v.botonDelete.setOnAction(actionEvent -> onBotonBorrar(v));
+            viviendas.put(v.nombre,v);
+        }
+
+        Collection<Vivienda> viviendasCollection = viviendas.values();
+        // Crea un ObservableList a partir de la Collection
+        datosViviendas = FXCollections.observableArrayList(viviendasCollection);
+    }
+
+    public void mostrarViviendasEnPagina(int pagina) {
         int inicio = pagina * VIVIENDAS_POR_PAGINA;
         int fin = Math.min(inicio + VIVIENDAS_POR_PAGINA, datosViviendas.size());
 
@@ -122,8 +134,27 @@ public class HelloController {
 
     @FXML
     private void onBotonBuscador(){
-
+        datosViviendas.clear();
+        buscarEnHashMap(viviendas,this.buscador.getText());
+        paginaActual=0;
+        mostrarViviendasEnPagina(paginaActual);
     }
+    private void buscarEnHashMap(HashMap<String, Vivienda> mapa, String cadenaBusqueda) {
+        for (Map.Entry<String, Vivienda> entry : mapa.entrySet()) {
+            String clave = entry.getKey();
+
+            if (clave.toLowerCase().contains(cadenaBusqueda.toLowerCase()))
+                datosViviendas.add(mapa.get(clave));
+        }
+    }
+
+    @FXML
+    public void onBotonBorrar(Vivienda vivienda){
+        viviendas.remove(vivienda.nombre);
+        datosViviendas.remove(vivienda);
+        mostrarViviendasEnPagina(paginaActual);
+    }
+
     @FXML
     private void onBotonAddVivienda(){
         try {
@@ -134,10 +165,10 @@ public class HelloController {
             a.inicializarConParametros(this);
             // Crear una nueva instancia de Stage
             Stage nuevaVentana = new Stage();
-            nuevaVentana.setTitle("Nueva Ventana");
+            nuevaVentana.setTitle("IPO APP");
 
             // Configurar la escena en la nueva ventana
-            nuevaVentana.setScene(new Scene(root,950, 650));
+            nuevaVentana.setScene(new Scene(root,950, 800));
 
             // Configurar la ventana modal (bloquea la ventana principal hasta que se cierre)
             nuevaVentana.initModality(Modality.WINDOW_MODAL);
@@ -156,9 +187,13 @@ public class HelloController {
      * Inicia la clase necesaria con los datos recogidos del fichero de idiomas
      * @param ruta ruta del fichero de idiomas
      */
-    public void inicializarConParametros(String ruta) {
+    public void inicializarConParametros(String ruta, String rutaViviendas) {
         f = new LectorDatos(ruta);
+        LectorViviendas l = new LectorViviendas(rutaViviendas);
+        addViviendasPredeterminadas(l.viviendas);
         crearIdiomas(f.idiomas.keySet().stream().toList());
+        // Mostrar las primeras viviendas
+        mostrarViviendasEnPagina(paginaActual);
     }
 
     /**
