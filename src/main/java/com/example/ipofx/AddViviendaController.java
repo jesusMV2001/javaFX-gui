@@ -113,6 +113,8 @@ public class AddViviendaController {
             mensajeErrorUbicacionRepetida();
         } else{
             nuevaVivienda.botonDelete.setOnAction(actionEvent -> h.onBotonBorrar(nuevaVivienda));
+            nuevaVivienda.botonDelete.setOnAction(actionEvent -> h.onBotonEditar(nuevaVivienda));
+            nuevaVivienda.botonDelete.setOnAction(actionEvent -> h.onBotonVisualizar(nuevaVivienda));
             h.viviendas.put(nuevaVivienda.nombre,nuevaVivienda);
             h.datosViviendas.add(nuevaVivienda);
             h.mostrarViviendasEnPagina(h.paginaActual);
