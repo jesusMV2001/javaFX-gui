@@ -1,14 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.ipofx.VistaViviendaController"
-            prefHeight="400.0" prefWidth="600.0">
-
-</AnchorPane>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ipofx.VistaViviendaController">
+   <top>
+      <MenuBar BorderPane.alignment="CENTER">
+         <menus>
+            <Menu fx:id="idiomasMenu" mnemonicParsing="false" text="Idiomas" />
+         </menus>
+      </MenuBar>
+   </top>
+   <center>
+      <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="volverBoton" layoutX="34.0" layoutY="26.0" mnemonicParsing="false" onAction="#setVolverBoton" text="Volver" />
+            <Pane layoutX="6.0" layoutY="70.0" prefHeight="209.0" prefWidth="938.0">
+               <children>
+                  <ImageView fx:id="foto1" fitHeight="212.0" fitWidth="276.0" pickOnBounds="true" />
+                  <ImageView fx:id="foto2" fitHeight="212.0" fitWidth="276.0" layoutX="276.0" layoutY="-1.0" pickOnBounds="true" />
+                  <ImageView fx:id="foto3" fitHeight="152.0" fitWidth="387.0" layoutX="552.0" layoutY="-1.0" pickOnBounds="true" />
+                  <Label fx:id="masFotos" alignment="CENTER" layoutX="552.0" layoutY="151.0" prefHeight="60.0" prefWidth="385.0" text="mas fotos" />
+               </children>
+            </Pane>
+            <ImageView fx:id="mapa" fitHeight="314.0" fitWidth="434.0" layoutX="233.0" layoutY="453.0" pickOnBounds="true" />
+            <Label fx:id="precioText" alignment="CENTER" layoutX="14.0" layoutY="298.0" prefHeight="43.0" prefWidth="194.0" text="Label">
+               <font>
+                  <Font size="24.0" />
+               </font></Label>
+            <Label fx:id="ubicacionText" alignment="CENTER" layoutX="419.0" layoutY="291.0" prefHeight="47.0" prefWidth="517.0" text="Label">
+               <font>
+                  <Font size="24.0" />
+               </font></Label>
+            <Label fx:id="descripcionText" alignment="TOP_LEFT" layoutX="14.0" layoutY="351.0" prefHeight="103.0" prefWidth="929.0" text="Label" />
+         </children>
+      </Pane>
+   </center>
+</BorderPane>

@@ -35,7 +35,7 @@ public class AddViviendaController {
     @FXML
     private void initialize() {
         //Icono boton guardar
-        Image imagen = new Image("save-icon.png");
+        Image imagen = new Image("save.png");
         ImageView imageView = new ImageView(imagen);
         imageView.setFitWidth(30);
         imageView.setFitHeight(30);

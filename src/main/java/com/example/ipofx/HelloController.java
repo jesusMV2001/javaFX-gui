@@ -41,11 +41,17 @@ public class HelloController {
     private void initialize() {
         pagAnterior.setText("<");
         pagSiguiente.setText(">");
-        Image imagen = new Image("add-icon.png");
-        ImageView imageView = new ImageView(imagen);
-        imageView.setFitWidth(30);
-        imageView.setFitHeight(30);
-        botonAddVivienda.setGraphic(imageView);
+        try {
+            Image imagen = new Image("add.png");
+            ImageView imageView = new ImageView(imagen);
+            imageView.setFitWidth(30);
+            imageView.setFitHeight(30);
+            botonAddVivienda.setGraphic(imageView);
+        }catch (Exception e){
+            System.out.println("error icono de boton vivienda");
+        }
+
+
 
         numPagina.setText(String.valueOf(paginaActual+1));
         toggleGroup = new ToggleGroup();
@@ -154,7 +160,30 @@ public class HelloController {
 
     @FXML
     public void onBotonVisualizar(Vivienda vivienda){
-        System.out.println("visualizar: "+vivienda.nombre);
+        try {
+            // Cargar la nueva ventana desde un archivo FXML
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("vistaVivienda.fxml"));
+            Parent root = loader.load();
+            VistaViviendaController a = loader.getController();
+            a.inicializarConParametros(this,vivienda);
+            // Crear una nueva instancia de Stage
+            Stage nuevaVentana = new Stage();
+            nuevaVentana.setTitle("IPO APP");
+
+            // Configurar la escena en la nueva ventana
+            nuevaVentana.setScene(new Scene(root,950, 800));
+
+            // Configurar la ventana modal (bloquea la ventana principal hasta que se cierre)
+            nuevaVentana.initModality(Modality.WINDOW_MODAL);
+            nuevaVentana.initOwner(tablaViviendas.getScene().getWindow());
+            nuevaVentana.setResizable(false);
+
+
+            // Mostrar la nueva ventana
+            nuevaVentana.showAndWait();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     @FXML
     public void onBotonEditar(Vivienda vivienda){

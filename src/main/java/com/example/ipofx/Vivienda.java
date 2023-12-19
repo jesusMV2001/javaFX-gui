@@ -25,8 +25,13 @@ public class Vivienda {
         boton1Property.set(this.botonEdit);
         boton2Property.set(this.botonDetails);
         boton3Property.set(this.botonDelete);
-        Image image = new Image("image.png");
-        this.foto = new ImageView(image);
+        try {
+            Image image = new Image("image.png");
+            this.foto = new ImageView(image);
+        }catch (Exception e){
+            System.out.println("error creando foto de vivienda");
+        }
+
         // Crear un ImageView para mostrar la imagen
         imagenProperty.set(this.foto);
     }
@@ -47,25 +52,31 @@ public class Vivienda {
 
     private void creaBotones(){
         this.botonEdit = new Button();
-        Image imagen = new Image("edit-icon.png");
-        ImageView imageView = new ImageView(imagen);
-        imageView.setFitWidth(30);
-        imageView.setFitHeight(30);
-        botonEdit.setGraphic(imageView);
-
         this.botonDetails = new Button();
-        imagen = new Image("search-icon.png");
-        imageView = new ImageView(imagen);
-        imageView.setFitWidth(30);
-        imageView.setFitHeight(30);
-        botonDetails.setGraphic(imageView);
-
         this.botonDelete = new Button();
-        imagen = new Image("delete-icon.png");
-        imageView = new ImageView(imagen);
-        imageView.setFitWidth(30);
-        imageView.setFitHeight(30);
-        botonDelete.setGraphic(imageView);
+
+        try{
+            Image imagen = new Image("edit.png");
+            ImageView imageView = new ImageView(imagen);
+            imageView.setFitWidth(30);
+            imageView.setFitHeight(30);
+            botonEdit.setGraphic(imageView);
+
+            Image imagen1 = new Image("search.png");
+            ImageView imageView1 = new ImageView(imagen1);
+            imageView1.setFitWidth(30);
+            imageView1.setFitHeight(30);
+            botonDetails.setGraphic(imageView1);
+
+            Image imagen2 = new Image("delete.png");
+            ImageView imageView2 = new ImageView(imagen2);
+            imageView2.setFitWidth(30);
+            imageView2.setFitHeight(30);
+            botonDelete.setGraphic(imageView2);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            System.out.println("Error creando botones viviendas");
+        }
     }
 
     // Getters para las propiedades observables de los botones
