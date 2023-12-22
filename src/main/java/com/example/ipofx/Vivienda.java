@@ -26,7 +26,7 @@ public class Vivienda {
         boton2Property.set(this.botonDetails);
         boton3Property.set(this.botonDelete);
         try {
-            Image image = new Image("image.png");
+            Image image = new Image("image2.png");
             this.foto = new ImageView(image);
         }catch (Exception e){
             System.out.println("error creando foto de vivienda");
@@ -46,6 +46,18 @@ public class Vivienda {
 
         Image image = new Image(rutaFoto);
         this.foto = new ImageView(image);
+        // Crear un ImageView para mostrar la imagen
+        imagenProperty.set(this.foto);
+    }
+
+    public void nuevaFoto(String ruta){
+        try {
+            Image image = new Image(ruta);
+            this.foto = new ImageView(image);
+        }catch (Exception e){
+            System.out.println("error creando foto de vivienda");
+        }
+
         // Crear un ImageView para mostrar la imagen
         imagenProperty.set(this.foto);
     }

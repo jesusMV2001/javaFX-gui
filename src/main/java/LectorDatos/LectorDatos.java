@@ -26,8 +26,7 @@ public class LectorDatos {
                 }
                 idioma.numImagenes = Integer.parseInt(bufferedReader.readLine().trim()); //num de imagenes
                 for (int j = 0; j < idioma.numImagenes; j++) {
-                    String[] split = bufferedReader.readLine().split("=");
-                    idioma.addImg(split[0],split[1]);
+                    idioma.addImg(bufferedReader.readLine());
                 }
                 idiomas.put(idioma.id,idioma);
             }

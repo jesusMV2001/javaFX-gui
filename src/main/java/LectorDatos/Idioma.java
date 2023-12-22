@@ -1,5 +1,6 @@
 package LectorDatos;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Idioma {
@@ -7,12 +8,12 @@ public class Idioma {
     public int numTexto;
     public int numImagenes;
     public HashMap<String,String> texto;
-    public HashMap<String,String> img;
+    public ArrayList<String> img;
 
     public Idioma(String id) {
         this.id=id;
         texto=new HashMap<>();
-        img=new HashMap<>();
+        img=new ArrayList<>();
     }
 
     public void addTexto(String k, String v){
@@ -23,11 +24,11 @@ public class Idioma {
         return texto.get(k);
     }
 
-    public void addImg(String k, String v){
-        img.put(k,v);
+    public void addImg(String v){
+        img.add(v);
     }
 
-    public String getImg(String k){
+    public String getImg(int k){
         return img.get(k);
     }
 }

@@ -267,10 +267,16 @@ public class HelloController {
             textoBuscador.setText(f.idiomas.get(idioma).getTexto("textoBuscador"));
             botonBuscador.setText(f.idiomas.get(idioma).getTexto("botonBuscador"));
             botonAddVivienda.setText(f.idiomas.get(idioma).getTexto("botonAddVivienda"));
+            datosViviendas.clear();
+            for (Vivienda vivienda : viviendas.values()){
+                vivienda.nuevaFoto(f.idiomas.get(idioma).getImg(0));
+                datosViviendas.add(vivienda);
+            }
             //se selecciona el idioma elegido
             for(MenuItem t: idiomasMenu.getItems()){
                 if( t.getText().equals(idioma))  ((RadioMenuItem) t).setSelected(true);
             }
+            mostrarViviendasEnPagina(paginaActual);
 
             leng=idioma;
         }
